@@ -1,4 +1,4 @@
-import { Car, FilterProps } from "../types";
+import { Car } from "../types";
 import { apiKey, carImageApiKey } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
@@ -8,7 +8,7 @@ export const fetchCars = async (searchParams: URLSearchParams) => {
 		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
 	}
 	const response = await fetch(
-		`https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${searchParams.get('manufacturer') || ''}
+		`http://localhost:3050/car-details?make=${searchParams.get('manufacturer') || ''}
 		&year=${searchParams.get('Year') || '2022'}
 		&model=${searchParams.get('model') || ''}
 		&fuel_type=${searchParams.get('Fuel') || ''}`, {
