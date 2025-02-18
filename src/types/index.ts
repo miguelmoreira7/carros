@@ -51,3 +51,17 @@ export interface CustomnFilterProps {
 export interface StyledComponentsProps {
     signinIn: boolean;
 }
+
+export interface User {
+    nome: string;
+    telefone: string;
+    rua: string;
+    numero: string;
+    email: string;
+    password: string;
+}
+
+export interface LoginRequest {
+    email: string;
+    password: string;
+}

@@ -1,4 +1,4 @@
-import { Car, FilterProps } from "../types";
+import { Car, FilterProps, LoginRequest, User } from "../types";
 import { apiKey, carImageApiKey } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
@@ -47,3 +47,53 @@ export const generateImageUrl = (car: Car, angle? : string) => {
 
 	return `${url}`;
 }
+
+const port = "26.25.146.180:3051";
+
+export const register = async (userInfo: User) => {
+	console.log(JSON.stringify(userInfo));
+    try {
+        const response = await fetch(`http://${port}/api1/users/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo),
+        });
+		console.log("a");
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+        if (!response.ok) {
+            throw new Error(`Erro ao registrar: ${data.message || response.statusText}`);
+        }
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+export const login = async (loginData: LoginRequest) => {
+    try {
+        const response = await fetch(`http://${port}/api1/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+        });
+
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+
+        if (!response.ok) {
+            throw new Error(`Erro ao fazer login: ${data.message || response.statusText}`);
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
