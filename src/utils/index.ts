@@ -1,5 +1,5 @@
 import { Car, FilterProps, LoginRequest, User } from "../types";
-import { apiKey, carImageApiKey } from "./apikey";
+import { apiKey, carImageApiKey, port } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
 	/* const {manufacturer, model, year, fuel, limit} = filters; */
@@ -48,7 +48,6 @@ export const generateImageUrl = (car: Car, angle? : string) => {
 	return `${url}`;
 }
 
-const port = "26.25.146.180:3051";
 
 export const register = async (userInfo: User) => {
 	console.log(JSON.stringify(userInfo));
