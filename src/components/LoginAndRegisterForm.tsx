@@ -42,7 +42,7 @@ const LoginAndRegisterForm = () => {
     };
 
     const [loginData, setLoginData] = useState<LoginRequest>({
-        email: '',
+        login: '',
         password: '',
     });
     
@@ -100,10 +100,10 @@ const LoginAndRegisterForm = () => {
                     <Components.Title>Login</Components.Title>
                     <Components.Input
                         type="email"
-                        name="email"
+                        name="login"
                         placeholder="Email"
                         required
-                        value={loginData.email}
+                        value={loginData.login}
                         onChange={handleLoginChange}
                     />
                     <Components.Input

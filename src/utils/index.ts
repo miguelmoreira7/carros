@@ -1,5 +1,5 @@
 import { Car, FilterProps, LoginRequest, User } from "../types";
-import { apiKey, carImageApiKey, port } from "./apikey";
+import { apiKey, carImageApiKey, port  } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
 	/* const {manufacturer, model, year, fuel, limit} = filters; */
@@ -58,6 +58,7 @@ export const register = async (userInfo: User) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userInfo),
+            
         });
 		console.log("a");
         const data = await response.json();
@@ -74,7 +75,7 @@ export const register = async (userInfo: User) => {
 
 export const login = async (loginData: LoginRequest) => {
     try {
-        const response = await fetch(`http://${port}/api1/users/login`, {
+        const response = await fetch(`http://${port}/api2/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
