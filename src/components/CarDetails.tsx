@@ -86,11 +86,11 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                             variant="contained"
                                             color="primary"
                                             sx={{
-                                                width: "460px",          // Faz o botão ocupar toda a largura
-                                                borderRadius: "999px",  // Deixa o botão totalmente arredondado
-                                                paddingY: "12px",       // Aumenta o espaçamento vertical
-                                                fontSize: "1rem",       // Define um tamanho de fonte adequado
-                                                fontWeight: "bold"      // Deixa o texto mais marcante
+                                                width: "460px",         
+                                                borderRadius: "999px",  
+                                                paddingY: "12px",       
+                                                fontSize: "1rem",       
+                                                fontWeight: "bold"    
                                             }}
                                         >
                                             Reservar
