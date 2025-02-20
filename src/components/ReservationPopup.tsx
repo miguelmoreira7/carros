@@ -1,7 +1,6 @@
-import { Car } from "../types"
+import { Car } from "../types";
 import Button from '@mui/material/Button';
 import axios from "axios";
-
 
 interface ReservationPopupProps {
     car: Car;
@@ -9,13 +8,29 @@ interface ReservationPopupProps {
     onConfirm: (carId: string) => void;
 }
 
-const ReservationPopup = ({ car, onClose } : ReservationPopupProps) => {
+const ReservationPopup = ({ car, onClose }: ReservationPopupProps) => {
 
     const handleConfirmReservation = async (carId: string) => {
         try {
-            const response = await axios.patch(`http://localhost:3050/car-details/${carId}`, {
-                available: false,
-            });
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                console.error("Token de autenticação não encontrado.");
+                return;
+            }
+
+            const response = await axios.patch(
+                `http://localhost:3050/car-details/${carId}`,
+                { 
+                    available: false,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        userId: `${window.localStorage.getItem("token")}`
+                    }
+                }
+            );
             console.log("Carro reservado com sucesso:", response.data);
             onClose();
         } catch (error) {
@@ -33,7 +48,6 @@ const ReservationPopup = ({ car, onClose } : ReservationPopupProps) => {
                     <Button onClick={() => handleConfirmReservation(car.id)} variant="contained" color="success">
                         Confirmar
                     </Button>
-
                 </div>
             </div>
         </div>
