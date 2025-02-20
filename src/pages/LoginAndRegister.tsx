@@ -65,16 +65,26 @@ const LoginAndRegisterForm = () => {
     };
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
-            const response = await login(loginData);
-            localStorage.setItem('token', response.token);
+    try {
+        const response = await login(loginData);
+        const token = response.token;
+
+        if (token) {
+            console.log("Token recebido:", token);
+            localStorage.setItem("token", token);
+            console.log("Token salvo no localStorage:", localStorage.getItem("token"));
             navigate('/');
-        } catch (error) {
-            alert('Erro ao fazer login. Verifique suas credenciais.');
+        } else {
+            alert('Token não recebido.');
         }
-    };
+    } catch (error) {
+        alert('Erro ao fazer login. Verifique suas credenciais.');
+        console.error(error);
+    }
+};
+
 
     return (
         <>

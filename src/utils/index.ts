@@ -3,9 +3,12 @@ import { apiKey, carImageApiKey, port  } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
 	/* const {manufacturer, model, year, fuel, limit} = filters; */
+
     const headers = {
 		'X-RapidAPI-Key': `${apiKey}`,
-		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
+		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com',
+        'Authorization': `Bearer ${window.localStorage.getItem("token")}`,
+        'Content-Type': 'application/json',
 	}
 	const response = await fetch(
 		`http://localhost:3050/car-details?make=${searchParams.get('manufacturer') || ''}
@@ -14,11 +17,14 @@ export const fetchCars = async (searchParams: URLSearchParams) => {
 		&fuel_type=${searchParams.get('Fuel') || ''}`, {
 		headers: headers,
 	});
-	
-	const result = await response.json();
-	return result
-	
-}
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(`Erro ao buscar carros: ${data.message || response.statusText}`);
+    }
+
+    return data;
+};
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
 	const basePricePerDay = 100;
@@ -76,29 +82,35 @@ export const login = async (loginData: LoginRequest) => {
     try {
         const response = await fetch(`http://${port}/api2/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData),
         });
 
         const data = await response.json();
-        console.log('Resposta do servidor:', data);
+        console.log('Resposta do servidor no login:', data);
 
         if (!response.ok) {
             throw new Error(`Erro ao fazer login: ${data.message || response.statusText}`);
         }
 
-        return data;
+        const token = data.token || data.tokenOrSessionId || data.accessToken;
+        if (token) {
+            localStorage.setItem("token", token);
+            return { token };
+        } else {
+            throw new Error("Token ausente na resposta do servidor.");
+        }
     } catch (error) {
         console.error('Erro na requisição:', error);
         throw error;
     }
 };
 
+
 export const isUserLoggedIn = (): boolean => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    return !!token;
+    const token = localStorage.getItem("token");  
+    console.log("Token encontrado no isUserLoggedIn:", token);  
+    return token !== null;
 };
 
 export const logoutUser = () => {

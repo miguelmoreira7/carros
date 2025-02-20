@@ -11,15 +11,15 @@ const Home = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [searchParams] = useSearchParams();
 
-  const getCars = async () => {
-    await fetchCars(searchParams).then(data => setCars(data));
-  };
-  
-  useEffect(() => {
-    getCars();
-  }, [searchParams]);
-
   const isDataEmpty = cars.length === 0 || !cars
+
+  useEffect(() => {
+  const fetchData = async () => {
+    const data = await fetchCars(searchParams);
+    setCars(Array.isArray(data) ? data : []);
+  };
+  fetchData();
+}, [searchParams]); 
 
 
   return (
