@@ -1,5 +1,5 @@
-import { Car } from "../types";
-import { apiKey, carImageApiKey } from "./apikey";
+import { Car, LoginRequest, User } from "../types";
+import { apiKey, carImageApiKey, port  } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
 	/* const {manufacturer, model, year, fuel, limit} = filters; */
@@ -47,3 +47,62 @@ export const generateImageUrl = (car: Car, angle? : string) => {
 
 	return `${url}`;
 }
+
+
+export const register = async (userInfo: User) => {
+	console.log(JSON.stringify(userInfo));
+    try {
+        const response = await fetch(`http://${port}/api1/users/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo),
+            
+        });
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+        if (!response.ok) {
+            throw new Error(`Erro ao registrar: ${data.message || response.statusText}`);
+        }
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+export const login = async (loginData: LoginRequest) => {
+    try {
+        const response = await fetch(`http://${port}/api2/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+        });
+
+        const data = await response.json();
+        console.log('Resposta do servidor:', data);
+
+        if (!response.ok) {
+            throw new Error(`Erro ao fazer login: ${data.message || response.statusText}`);
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        throw error;
+    }
+};
+
+export const isUserLoggedIn = (): boolean => {
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    return !!token;
+};
+
+export const logoutUser = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
