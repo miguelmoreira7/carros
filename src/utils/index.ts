@@ -60,7 +60,6 @@ export const register = async (userInfo: User) => {
             body: JSON.stringify(userInfo),
             
         });
-		console.log("a");
         const data = await response.json();
         console.log('Resposta do servidor:', data);
         if (!response.ok) {
@@ -96,4 +95,14 @@ export const login = async (loginData: LoginRequest) => {
         throw error;
     }
 };
+
+export const isUserLoggedIn = (): boolean => {
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    return !!token;
+};
+
+export const logoutUser = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
 
