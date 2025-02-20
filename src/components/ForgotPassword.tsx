@@ -44,7 +44,7 @@ const ForgotPassword = ({ isOpen, closeModal }: ForgotDetails) => {
       const response = await fetch(`http://${port}/api2/auth/reset-password`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ login: formData.email, senha: formData.senha }),
+        body: JSON.stringify({ login: formData.email, password: formData.senha }),
       });
 
       if (!response.ok) throw new Error("Falha ao redefinir a senha. Tente novamente.");
