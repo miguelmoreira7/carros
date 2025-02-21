@@ -116,5 +116,5 @@ export const isUserLoggedIn = (): boolean => {
 export const logoutUser = () => {
     localStorage.removeItem("token");
     window.location.reload();
-  };
+};
 

@@ -19,6 +19,7 @@ export interface SearchManufacturerProps {
 
 export type Car = {
     id: string;
+    userId: string;
     available: boolean;
     city_mpg: number;
     class: string;

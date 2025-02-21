@@ -59,7 +59,6 @@ const Hero = () => {
         <div className="hero__image-overlay" />
       </div>
 
-      {/* Exibe o componente CarListReserved se o usuário clicar em "Minhas Reservas" */}
       {showReservations && <CarListReserved />}
     </div>
   );

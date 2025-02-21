@@ -16,14 +16,13 @@ const CarListReserved = () => {
         if (!token) return;
 
         const response = await axios.get(
-          `http://${port}/api1/reserved-cars`,
+          `http://${port}/api1/car-details/my-reservations`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` }
           }
         );
-        setReservedCars(response.data);
+
+        setReservedCars(response.data.reservations);
       } catch (error) {
         console.error("Erro ao carregar os carros reservados", error);
       } finally {
@@ -35,7 +34,7 @@ const CarListReserved = () => {
   }, []);
 
   if (loading) return <p>Carregando carros reservados...</p>;
-
+  console.log(reservedCars); 
   return (
     <div className="car-list">
       {reservedCars.length > 0 ? (
