@@ -20,7 +20,7 @@ const ReservationPopup = ({ car, onClose }: ReservationPopupProps) => {
             }
 
             const response = await axios.patch(
-                `http://localhost:3050/car-details/rent/${carId}`,
+                `http://localhost:3051/api1/car-details/rent/${carId}`,
                 { 
                     available: false,
                 },
