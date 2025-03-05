@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Components from '../utils/styledComponents';
-import { login, register } from '../utils';
+import { login, register } from '../utils/index';
 import { LoginRequest, User } from '../types';
 import ForgotPassword from '../components/ForgotPassword';
 import { isUserLoggedIn } from '../utils/index';

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import * as Components from "../utils/styledComponents";
-import { isUserLoggedIn } from "../utils";
+import { isUserLoggedIn } from "../utils/index";
 import { port } from "../utils/apikey";
 
 interface ForgotDetails {

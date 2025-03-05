@@ -1,4 +1,4 @@
-import { Car, FilterProps, LoginRequest, User } from "../types";
+import { Car, LoginRequest, User } from "../types";
 import { apiKey, carImageApiKey, port  } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
