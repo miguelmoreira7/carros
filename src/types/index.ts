@@ -1,21 +1,26 @@
-import { MouseEventHandler } from "react"
+import {MouseEventHandler} from "react"
 
 export interface CustomButtonProps {
-    title: string;
-    containerStyles?: string;
-    handleClick?: MouseEventHandler<HTMLButtonElement>;
-    btnType?: "button" | "submit";
-    textStyles?: string;
-    rightIcon?: string;
-    isDisabled?: boolean;
+    title: string,
+    containerStyles?: string,
+    handleClick?: MouseEventHandler<HTMLButtonElement>,
+    btnType?: "button" | "submit",
+    textStyles?: string,
+    rightIcon?: string,
+    isDisabled?: boolean,
+    disabled?: boolean
 }
 
 export interface SearchManufacturerProps {
     manufacturer: string;
+
     setManufacturer(manufacturer: string): void;
 }
 
 export type Car = {
+    id: string;
+    userId: string;
+    available: boolean;
     city_mpg: number;
     class: string;
     combination_mpg: number;

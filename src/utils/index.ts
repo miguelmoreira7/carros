@@ -2,23 +2,42 @@ import { Car, LoginRequest, User } from "../types";
 import { apiKey, carImageApiKey, port  } from "./apikey";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
-	/* const {manufacturer, model, year, fuel, limit} = filters; */
+    // Recupera e "trima" os parâmetros de consulta
+    const make = searchParams.get("manufacturer")?.trim() || "";
+    const year = searchParams.get("Year")?.trim() || "2022";
+    const model = searchParams.get("model")?.trim() || "";
+    const fuel_type = searchParams.get("Fuel")?.trim() || "";
+    const page = searchParams.get("page")?.trim() || "1";
+    const limit = searchParams.get("limit")?.trim() || "10";
+  
     const headers = {
-		'X-RapidAPI-Key': `${apiKey}`,
-		'X-RapidAPI-Host': 'cars-by-api-ninjas.p.rapidapi.com'
-	}
-	const response = await fetch(
-		`https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${searchParams.get('manufacturer') || ''}
-		&year=${searchParams.get('Year') || '2022'}
-		&model=${searchParams.get('model') || ''}
-		&fuel_type=${searchParams.get('Fuel') || ''}`, {
-		headers: headers,
-	});
-	
-	const result = await response.json();
-	return result
-	
-}
+      "X-RapidAPI-Key": `${apiKey}`,
+      "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    };
+  
+    // Constrói a URL codificando os parâmetros para evitar problemas com espaços ou caracteres especiais
+    const url = `http://localhost:3051/api1/car-details?make=${encodeURIComponent(
+      make
+    )}&year=${encodeURIComponent(year)}&model=${encodeURIComponent(
+      model
+    )}&fuel_type=${encodeURIComponent(fuel_type)}&page=${encodeURIComponent(
+      page
+    )}&limit=${encodeURIComponent(limit)}`;
+  
+    const response = await fetch(url, { headers });
+  
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(
+        `Erro ao buscar carros: ${data.message || response.statusText}`
+      );
+    }
+  
+    return data;
+  };
+  
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
 	const basePricePerDay = 100;
@@ -76,33 +95,39 @@ export const login = async (loginData: LoginRequest) => {
     try {
         const response = await fetch(`http://${port}/api2/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginData),
         });
 
         const data = await response.json();
-        console.log('Resposta do servidor:', data);
+        console.log('Resposta do servidor no login:', data);
 
         if (!response.ok) {
             throw new Error(`Erro ao fazer login: ${data.message || response.statusText}`);
         }
 
-        return data;
+        const token = data.token || data.tokenOrSessionId || data.accessToken;
+        if (token) {
+            localStorage.setItem("token", token);
+            return { token };
+        } else {
+            throw new Error("Token ausente na resposta do servidor.");
+        }
     } catch (error) {
         console.error('Erro na requisição:', error);
         throw error;
     }
 };
 
+
 export const isUserLoggedIn = (): boolean => {
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    return !!token;
+    const token = localStorage.getItem("token");  
+    console.log("Token encontrado no isUserLoggedIn:", token);  
+    return token !== null;
 };
 
 export const logoutUser = () => {
     localStorage.removeItem("token");
     window.location.reload();
-  };
+};
 

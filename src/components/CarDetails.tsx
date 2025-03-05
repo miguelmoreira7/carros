@@ -1,7 +1,9 @@
 import { Car } from "../types";
-import { Fragment } from 'react';
+import {Fragment, useState} from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import { generateImageUrl } from "../utils";
+import Button from "@mui/material/Button";
+import {ReservationPopup} from "./index.tsx";
 
 interface CarDetailsProps {
     isOpen: boolean;
@@ -10,6 +12,13 @@ interface CarDetailsProps {
 }
 
 const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
+
+    const [showPopup, setShowPopup] = useState(false);
+    const handleReserve = (carId: string) => {
+        console.log(`Reservando carro com ID: ${carId}`);
+        setShowPopup(false);
+    };
+
   return (
     <>
     <Transition appear show={isOpen} as={Fragment}>
@@ -63,17 +72,38 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                     {car.make} {car.model}
                                 </h2>
                                 <div className="mt-3 flex flex-wrap gap-4">
-                                    {Object.entries(car).map(([key, value]) => (
-                                        <div className="flex justify-between gap-5 w-full text-right" key={key}>
-                                            <h4 className="text-grey capitalize">{key.split("_").join(" ")}</h4>
-                                            <p className="text-black-100 font-semibold capitalize">{value}</p>
-                                        </div>
-                                    ))}
+                                    {Object.entries(car)
+                                        .filter(([key]) => !["available", "id", "createdAt", "updatedAt"].includes(key))
+                                        .map(([key, value]) => (
+                                            <div className="flex justify-between gap-5 w-full text-right" key={key}>
+                                                <h4 className="text-grey capitalize">{key.split("_").join(" ")}</h4>
+                                                <p className="text-black-100 font-semibold capitalize">{value}</p>
+                                            </div>
+                                        ))}
+                                    <div className="mt-4">
+                                        <Button
+                                            onClick={() => setShowPopup(true)}
+                                            variant="contained"
+                                            color="primary"
+                                            sx={{
+                                                width: "460px",         
+                                                borderRadius: "999px",  
+                                                paddingY: "12px",       
+                                                fontSize: "1rem",       
+                                                fontWeight: "bold"    
+                                            }}
+                                        >
+                                            Reservar
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>
+                {showPopup && (
+                    <ReservationPopup car={car} onClose={() => setShowPopup(false)} onConfirm={handleReserve} />
+                )}
             </div>
         </Dialog>
     </Transition>
