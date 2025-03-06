@@ -1,13 +1,14 @@
 import { CustomButtonProps } from "../types"
 
 
-const CustomButton = ({title, containerStyles, handleClick, btnType, textStyles, rightIcon}: CustomButtonProps) => {
+const CustomButton = ({title, containerStyles, handleClick, btnType, textStyles, rightIcon, bgColor, color, borderRadius, width}: CustomButtonProps) => {
   return (
     <button
     disabled={false}
     type={btnType || "button"}
-    className={`custom-btn ${containerStyles}`}
+    className={`custom-btn ${containerStyles} w-${width}`}
     onClick={handleClick}
+    style={{backgroundColor: bgColor, color, borderRadius}}
     >
         <span className={`flex-1 ${textStyles}`}>
             {title}

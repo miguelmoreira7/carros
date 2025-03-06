@@ -5,8 +5,10 @@ import { login, register } from '../utils/index';
 import { LoginRequest, User } from '../types';
 import ForgotPassword from '../components/ForgotPassword';
 import { isUserLoggedIn } from '../utils/index';
+import { useStateContext } from '../contexts/ContextProvider';
 
 const LoginAndRegisterForm = () => {
+    const { currentColor } = useStateContext();
     const [signIn, setSignIn] = useState<boolean>(true);
     const [formData, setFormData] = useState<User>({
         nome: '',
@@ -113,7 +115,7 @@ const LoginAndRegisterForm = () => {
                             onChange={handleConfirmPasswordChange}
                         />
 
-                        <Components.Button type="submit">Criar conta</Components.Button>
+                        <Components.Button $color={currentColor} type="submit">Criar conta</Components.Button>
                     </Components.Form>
                 </Components.SignUpContainer>
 
@@ -137,12 +139,12 @@ const LoginAndRegisterForm = () => {
                             onChange={handleLoginChange}
                         />
                         <Components.Anchor onClick={() => setIsOpen(true)} href="#">Esqueceu sua senha?</Components.Anchor>
-                        <Components.Button type="submit">Login</Components.Button>
+                        <Components.Button $color={currentColor} type="submit">Login</Components.Button>
                     </Components.Form>
                 </Components.SignInContainer>
 
                 <Components.OverlayContainer $signinIn={signIn}>
-                    <Components.Overlay $signinIn={signIn}>
+                    <Components.Overlay $color={currentColor} $signinIn={signIn}>
                         <Components.LeftOverlayPanel $signinIn={signIn}>
                             <Components.Title>Bem-vindo de volta!</Components.Title>
                             <Components.Paragraph>

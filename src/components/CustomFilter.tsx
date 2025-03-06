@@ -24,7 +24,7 @@ const CustomFilter = ({title, options}: CustomnFilterProps) => {
       <Listbox
       value={selected}
       onChange={(e) => setSelected(e)}>
-        <div className="relative w-fit z-10">
+        <div className="relative w-fit z-0">
           <Listbox.Button className="custom-filter__btn">
             <span className="block truncate">{selected.title}</span>
             <img src="/chevron-up-down.svg" alt="chevron up down" className="w-5 h-5 ml-4 object-contain" />

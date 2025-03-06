@@ -8,7 +8,11 @@ export interface CustomButtonProps {
     textStyles?: string,
     rightIcon?: string,
     isDisabled?: boolean,
-    disabled?: boolean
+    disabled?: boolean,
+    color?: string,
+    bgColor?: string,
+    borderRadius?: string,
+    width?: string,
 }
 
 export interface SearchManufacturerProps {
@@ -69,4 +73,9 @@ export interface User {
 export interface LoginRequest {
     login: string;
     password: string;
+}
+
+export interface ReservationPopupProps {
+    onClose: () => void;
+    onConfirm: (carId: string) => void;
 }

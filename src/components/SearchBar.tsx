@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSearchParams } from "react-router-dom";
 
 const SearchButton = ({extraClasses}: {extraClasses: string}) => (
-  <button type="submit" className={`-ml-3 z-10 ${extraClasses}`}>
+  <button type="submit" className={`-ml-3 z-0 ${extraClasses}`}>
     <img src="/magnifying-glass.svg" alt="magnifying glass" className="w-10 h-10 object-contain" />
   </button>
 )

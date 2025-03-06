@@ -1,5 +1,7 @@
-import { Car, LoginRequest, User } from "../types";
+import { useStateContext } from "../contexts/ContextProvider";
+import { Car, LoginRequest, ReservationPopupProps, User } from "../types";
 import { apiKey, carImageApiKey, port  } from "./apikey";
+import axios from "axios";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
     // Recupera e "trima" os parâmetros de consulta
@@ -18,11 +20,11 @@ export const fetchCars = async (searchParams: URLSearchParams) => {
     };
   
     // Constrói a URL codificando os parâmetros para evitar problemas com espaços ou caracteres especiais
-    const url = `http://localhost:3051/api1/car-details?make=${encodeURIComponent(
+    const url = `http://${port}/api1/car-details?make=${encodeURIComponent(
       make
     )}&year=${encodeURIComponent(year)}&model=${encodeURIComponent(
       model
-    )}&fuel_type=${encodeURIComponent(fuel_type)}&page=${encodeURIComponent(
+    )}&fuel=${encodeURIComponent(fuel_type)}&page=${encodeURIComponent(
       page
     )}&limit=${encodeURIComponent(limit)}`;
   
@@ -131,3 +133,33 @@ export const logoutUser = () => {
     window.location.reload();
 };
 
+export const handleConfirmReservation = async (carId: string, onClose: Function) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("Token de autenticação não encontrado.");
+            onClose();
+            return;
+        }
+
+        const response = await axios.patch(
+            `http://${port}/api1/car-details/rent/${carId}`,
+            { 
+                available: false,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    userId: `${window.localStorage.getItem("token")}`
+                }
+            }
+        );
+        console.log("veículo reservado com sucesso:", response.data);
+        onClose();
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao reservar o carro:", error);
+        onClose();
+    }
+};

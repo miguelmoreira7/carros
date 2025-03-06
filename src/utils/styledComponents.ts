@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import tinycolor from "tinycolor2";
 
 export const Container = styled.div`
 background-color: #fff;
@@ -67,10 +68,10 @@ width: 100%;
 `;
 
 
-export const Button = styled.button`
+export const Button = styled.button<{ $color?: string }>`
    border-radius: 20px;
-   border: 1px solid #0e1280;
-   background-color: #0e1280;
+   border: 1px solid ${({ $color }) => $color || "#0e1280"};
+   background-color: ${({ $color }) => $color || "#0e1280"};
    color: #ffffff;
    font-size: 12px;
    font-weight: bold;
@@ -109,21 +110,24 @@ ${props =>
  props.$signinIn !== true ? `transform: translateX(-100%);` : null}
 `;
 
-export const Overlay = styled.div<{ $signinIn?: boolean; }>`
-background: #070a59;
-background: -webkit-linear-gradient(to right, #0e1280, #070a59);
-background: linear-gradient(to right, #0e1280, #070a59);
-background-repeat: no-repeat;
-background-size: cover;
-background-position: 0 0;
-color: #ffffff;
-position: relative;
-left: -100%;
-height: 100%;
-width: 200%;
-transform: translateX(0);
-transition: transform 0.6s ease-in-out;
-${props => (props.$signinIn !== true ? `transform: translateX(50%);` : null)}
+export const Overlay = styled.div<{ $signinIn?: boolean; $color?: string }>`
+    background: ${({ $color }) => {
+        const mainColor = $color || "#2b59ff";
+        const darkerColor = tinycolor(mainColor).darken(25).toString();
+        return `linear-gradient(to right, ${mainColor}, ${darkerColor})`;
+    }};
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #ffffff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+    
+    ${({ $signinIn }) => ($signinIn !== true ? `transform: translateX(50%);` : null)}
 `;
 
 export const OverlayPanel = styled.div`

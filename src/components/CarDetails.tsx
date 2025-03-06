@@ -3,7 +3,8 @@ import {Fragment, useState} from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import { generateImageUrl } from "../utils";
 import Button from "@mui/material/Button";
-import {ReservationPopup} from "./index.tsx";
+import { useStateContext } from "../contexts/ContextProvider.tsx";
+
 
 interface CarDetailsProps {
     isOpen: boolean;
@@ -12,11 +13,11 @@ interface CarDetailsProps {
 }
 
 const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
-
-    const [showPopup, setShowPopup] = useState(false);
-    const handleReserve = (carId: string) => {
-        console.log(`Reservando carro com ID: ${carId}`);
-        setShowPopup(false);
+    
+    const { currentColor, setCartData } = useStateContext()
+    const handleAddToCart = (car: Car) => {
+        setCartData((prevCart) => [...prevCart, car]);
+        closeModal();
     };
 
   return (
@@ -82,10 +83,10 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                         ))}
                                     <div className="mt-4">
                                         <Button
-                                            onClick={() => setShowPopup(true)}
+                                            onClick={() => handleAddToCart(car)}
                                             variant="contained"
-                                            color="primary"
                                             sx={{
+                                                backgroundColor : currentColor,
                                                 width: "460px",         
                                                 borderRadius: "999px",  
                                                 paddingY: "12px",       
@@ -93,7 +94,7 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                                 fontWeight: "bold"    
                                             }}
                                         >
-                                            Reservar
+                                            Adicionar ao Carrinho
                                         </Button>
                                     </div>
                                 </div>
@@ -101,9 +102,6 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                         </Dialog.Panel>
                     </Transition.Child>
                 </div>
-                {showPopup && (
-                    <ReservationPopup car={car} onClose={() => setShowPopup(false)} onConfirm={handleReserve} />
-                )}
             </div>
         </Dialog>
     </Transition>

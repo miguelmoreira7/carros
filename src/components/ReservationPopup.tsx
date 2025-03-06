@@ -1,51 +1,36 @@
-import { Car } from "../types";
+import { Car, ReservationPopupProps } from "../types";
 import Button from '@mui/material/Button';
-import axios from "axios";
+import { useStateContext } from "../contexts/ContextProvider";
+import { handleConfirmReservation } from "../utils";
 
-interface ReservationPopupProps {
-    car: Car;
-    onClose: () => void;
-    onConfirm: (carId: string) => void;
-}
+const ReservationPopup = ({ onClose }: ReservationPopupProps) => {
 
-const ReservationPopup = ({ car, onClose }: ReservationPopupProps) => {
+    const { currentColor, setCartData, cartData} = useStateContext();
 
-    const handleConfirmReservation = async (carId: string) => {
-        try {
-            const token = localStorage.getItem('token');
-
-            if (!token) {
-                console.error("Token de autenticação não encontrado.");
-                return;
-            }
-
-            const response = await axios.patch(
-                `http://localhost:3051/api1/car-details/rent/${carId}`,
-                { 
-                    available: false,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        userId: `${window.localStorage.getItem("token")}`
-                    }
-                }
-            );
-            console.log("Carro reservado com sucesso:", response.data);
-            onClose();
-        } catch (error) {
-            console.error("Erro ao reservar o carro:", error);
-        }
-    };
+    const handleFinalizeRental = async () => {
+          for (const car of cartData) {
+              await handleConfirmReservation(car.id, onClose);
+          }
+          setCartData([]);
+      };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
                 <h2 className="text-xl font-semibold mb-4">Confirmar Reserva</h2>
-                <p>Você deseja reservar o carro <strong>{car.model}</strong>?</p>
+                <p>Você deseja reservar os itens do carrinho?</p>
                 <div className="mt-4 flex justify-end space-x-2">
-                    <Button onClick={onClose} variant="contained" color="error">Cancelar</Button>
-                    <Button onClick={() => handleConfirmReservation(car.id)} variant="contained" color="success">
+                    <Button onClick={onClose} variant="contained" color="inherit"
+                    sx={{
+                        borderRadius: "999px"
+                    }}>Cancelar</Button>
+                    <Button onClick={() => {
+                        handleFinalizeRental()
+                    }} variant="contained" 
+                        sx={{
+                            borderRadius: "999px",
+                            backgroundColor: currentColor
+                        }}>
                         Confirmar
                     </Button>
                 </div>
