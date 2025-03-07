@@ -19,8 +19,16 @@ const Hero = () => {
     }
   }, []);
 
-  const handleShowAll = () => {
-    setShowAllCars(true);
+  //const handleShowAll = () => {
+    //setShowAllCars(true);
+  //};
+
+  const handleScrollToDiscover = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const element = document.getElementById("discover");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleShowReservations = () => {
@@ -37,11 +45,13 @@ const Hero = () => {
           Melhorando sua experiência em compra de carros com nosso processo de busca
         </p>
 
-        <CustomButton
-          title="Explorar carros"
-          containerStyles="bg-primary-blue text-white rounded-full mt-10"
-          handleClick={handleShowAll}
-        />
+        <a href="">
+          <CustomButton
+            title="Explorar carros"
+            containerStyles="bg-primary-blue text-white rounded-full mt-10"
+            handleClick={handleScrollToDiscover}
+          />
+        </a>
 
         {showAllCars && <CarListGeneral cars={[]} />}
 

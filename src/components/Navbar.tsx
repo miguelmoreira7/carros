@@ -8,7 +8,7 @@ import Cart from "./Cart";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const {handleClick, currentColor, isClicked} = useStateContext();
+  const {handleClick, isClicked} = useStateContext();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -39,7 +39,7 @@ const Navbar = () => {
     <header className="w-full absolute z-10">
       <nav className="max-w-[1440px] mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
         <Link to="/" className="flex justify-center items-center">
-          <img src="./logo.svg" alt="Car Hub Logo" className="object-contain h-5"/>
+          <img src="./logo.svg" alt="Car Rent Logo" className="object-contain  h-20"/>
         </Link>
         
         <div className="flex justify-between p-2 md:mx-6 relative">
@@ -53,7 +53,7 @@ const Navbar = () => {
               </button>
               <NavButton title='Carrinho'
               customFunc={() => handleClick('cart')}
-              color = {currentColor}
+              color = "white"
               icon = {<FiShoppingCart/>}
               dotColor=""
               />

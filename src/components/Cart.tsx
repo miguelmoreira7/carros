@@ -1,16 +1,15 @@
-import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Button from "./Button";
 import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "../contexts/ContextProvider";
 import { Car } from "../types";
-import { generateImageUrl, handleConfirmReservation } from "../utils";
+import { generateImageUrl } from "../utils";
 import CustomButton from "./CustomButton";
 import ReservationPopup from "./ReservationPopup";
 import { useState } from "react";
 
 const Cart = () => {
 
-    const { setCartData, cartData, currentColor } = useStateContext();
+    const { cartData, currentColor } = useStateContext();
 
     const getImage = (car: Car) => {
         return generateImageUrl(car)
@@ -30,12 +29,14 @@ const Cart = () => {
             <div className="flex justify-between items-center">
               <p className="font-semibold text-lg">Carrinho</p>
               <Button
-                icon={<MdOutlineCancel />}
-                color="rgb(153, 171, 180)"
-                bgHoverColor="light-gray"
-                size="2xl"
-                borderRadius="50%"
-              />
+              icon={<MdOutlineCancel />}
+              color="rgb(153, 171, 180)"
+              bgHoverColor="light-gray"
+              size="2xl"
+              borderRadius="50%" 
+              bgColor={undefined} 
+              text={undefined} 
+              width={undefined}              />
             </div>
             {cartData?.map((item, index) => (
               <div key={index}>
