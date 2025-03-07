@@ -1,9 +1,10 @@
 import { Car } from "../types";
-import {Fragment, useState} from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import { generateImageUrl } from "../utils";
 import Button from "@mui/material/Button";
 import { useStateContext } from "../contexts/ContextProvider.tsx";
+import { useNavigate } from "react-router-dom";
 
 
 interface CarDetailsProps {
@@ -15,9 +16,21 @@ interface CarDetailsProps {
 const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
     
     const { currentColor, setCartData } = useStateContext()
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
     const handleAddToCart = (car: Car) => {
         setCartData((prevCart) => [...prevCart, car]);
         closeModal();
+    };
+
+     useEffect(() => {
+        const token = localStorage.getItem("token");
+        setIsLoggedIn(!!token);
+    }, []);
+
+    const handleRedirectToLogin = () => {
+        navigate("/loginOrRegister");
     };
 
   return (
@@ -82,20 +95,37 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                             </div>
                                         ))}
                                     <div className="mt-4">
-                                        <Button
-                                            onClick={() => handleAddToCart(car)}
-                                            variant="contained"
-                                            sx={{
-                                                backgroundColor : currentColor,
-                                                width: "460px",         
-                                                borderRadius: "999px",  
-                                                paddingY: "12px",       
-                                                fontSize: "1rem",       
-                                                fontWeight: "bold"    
-                                            }}
-                                        >
-                                            Adicionar ao Carrinho
-                                        </Button>
+                                        {isLoggedIn ? (
+                                            <Button
+                                                onClick={() => handleAddToCart(car)}
+                                                variant="contained"
+                                                sx={{
+                                                    backgroundColor: currentColor,
+                                                    width: "460px",
+                                                    borderRadius: "999px",
+                                                    paddingY: "12px",
+                                                    fontSize: "1rem",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                Adicionar ao Carrinho
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                onClick={handleRedirectToLogin}
+                                                variant="contained"
+                                                sx={{
+                                                    backgroundColor: "#f44336",
+                                                    width: "460px",
+                                                    borderRadius: "999px",
+                                                    paddingY: "12px",
+                                                    fontSize: "1rem",
+                                                    fontWeight: "bold",
+                                                }}
+                                            >
+                                                Faça o Login para Alugar
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
