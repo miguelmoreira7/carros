@@ -7,9 +7,9 @@ interface CarListGeneralProps {
 
 const CarListGeneral = ({ cars }: CarListGeneralProps) => {
   return (
-    <div className="car-list">
-      {cars.map((car) => (
-        <CarCard key={car.id} car={car} />
+    <div className="home__cars-wrapper">
+      {cars.map((car, index) => (
+        <CarCard car={car} key={index} />
       ))}
     </div>
   );

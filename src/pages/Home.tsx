@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { CustomFilter, Hero, SearchBar, CarCard } from "../components";
+import { CustomFilter, Hero, SearchBar } from "../components";
 import { fetchCars } from "../utils";
 import { Car } from "../types/index";
 import { useSearchParams } from "react-router-dom";
 import { fuels, yearsOfProduction } from "../constants";
+import CarListGeneral from "../components/CarListGeneral";
+import CarListReserved from "../components/CarListReserved";
 
 const Home = () => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -15,6 +17,8 @@ const Home = () => {
   });
 
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [view, setView] = useState<"allCars" | "reservations" >("allCars");
 
   const isDataEmpty = cars.length === 0 || !cars;
 
@@ -56,7 +60,7 @@ const Home = () => {
 
   return (
     <div className="overflow-hidden">
-      <Hero />
+      <Hero view={view} setView={setView} />
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
           <h1 className="text-4xl font-extrabold">Catálogo de carros</h1>
@@ -71,11 +75,8 @@ const Home = () => {
         </div>
         {!isDataEmpty ? (
           <section>
-            <div className="home__cars-wrapper">
-              {cars.map((car, index) => (
-                <CarCard car={car} key={index} />
-              ))}
-            </div>
+            {view === "allCars" && <CarListGeneral cars={cars} />}
+            {view === "reservations" && <CarListReserved />}
             <div className="pagination">
               <button
                 onClick={handlePreviousPage}

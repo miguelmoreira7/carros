@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { CustomButton } from "."
-import CarListGeneral from "./CarListGeneral";
-import CarListReserved from "./CarListReserved";
+
+interface HeroProps {
+  view: "allCars" | "reservations" ;
+  setView: (view: "allCars" | "reservations" ) => void;
+}
 
 
-
-const Hero = () => {
-  const [showReservations, setShowReservations] = useState(false);
-  const [showAllCars, setShowAllCars] = useState(false);
+const Hero = ({ setView }: HeroProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -31,9 +31,6 @@ const Hero = () => {
     }
   };
 
-  const handleShowReservations = () => {
-    setShowReservations(true);
-  };
 
   return (
     <div className="hero">
@@ -45,21 +42,27 @@ const Hero = () => {
           Melhorando sua experiência em compra de carros com nosso processo de busca
         </p>
 
-        <a href="">
+        {!isLoggedIn &&(
           <CustomButton
             title="Explorar carros"
             containerStyles="bg-primary-blue text-white rounded-full mt-10"
             handleClick={handleScrollToDiscover}
           />
-        </a>
+        )}
 
-        {showAllCars && <CarListGeneral cars={[]} />}
+        {isLoggedIn &&(
+          <CustomButton
+            title="Explorar carros"
+            containerStyles="bg-primary-blue text-white rounded-full mt-10"
+            handleClick={() => setView("allCars")}
+          />
+        )}
 
         {isLoggedIn && (
           <CustomButton
             title="Minhas Reservas"
             containerStyles="bg-primary-blue text-white rounded-full mt-4"
-            handleClick={handleShowReservations}
+            handleClick={() => setView("reservations")}
           />
         )}
       </div>
@@ -68,8 +71,6 @@ const Hero = () => {
         <img src="/hero.png" alt="hero" className="object-contain hero__image" />
         <div className="hero__image-overlay" />
       </div>
-
-      {showReservations && <CarListReserved />}
     </div>
   );
 }
