@@ -11,6 +11,8 @@ export const fetchCars = async (searchParams: URLSearchParams) => {
     const page = searchParams.get("page")?.trim() || "1";
     const limit = searchParams.get("limit")?.trim() || "10";
   
+    console.log(fuel_type)
+
     const headers = {
       "X-RapidAPI-Key": `${apiKey}`,
       "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",

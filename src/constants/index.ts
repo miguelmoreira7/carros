@@ -61,12 +61,16 @@ export const manufacturers = [
       value: "",
     },
     {
+      title: "Diesel",
+      value: "diesel",
+    },
+    {
       title: "Gasolina",
-      value: "Gas",
+      value: "gas",
     },
     {
       title: "Elétrico",
-      value: "Electricity",
+      value: "electricity",
     },
   ];
   

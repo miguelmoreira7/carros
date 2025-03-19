@@ -17,9 +17,6 @@ const SearchBar = () => {
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if(manufacturer === '' && model === '') {
-          return alert('Preencha os campos antes de pesquisar')
-        }
         updateSearchParams(model.toLowerCase(), manufacturer.toLowerCase())
     }
 
