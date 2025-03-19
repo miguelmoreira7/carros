@@ -4,7 +4,6 @@ import { apiKey, carImageApiKey, port  } from "./apikey";
 import axios from "axios";
 
 export const fetchCars = async (searchParams: URLSearchParams) => {
-    // Recupera e "trima" os parâmetros de consulta
     const make = searchParams.get("manufacturer")?.trim() || "";
     const year = searchParams.get("Year")?.trim() || "2022";
     const model = searchParams.get("model")?.trim() || "";
@@ -19,7 +18,6 @@ export const fetchCars = async (searchParams: URLSearchParams) => {
       "Content-Type": "application/json",
     };
   
-    // Constrói a URL codificando os parâmetros para evitar problemas com espaços ou caracteres especiais
     const url = `http://${port}/api1/car-details?make=${encodeURIComponent(
       make
     )}&year=${encodeURIComponent(year)}&model=${encodeURIComponent(
@@ -144,7 +142,8 @@ export const handleConfirmReservation = async (carId: string, onClose: Function)
         }
 
         const response = await axios.patch(
-            `http://${port}/api1/car-details/rent/${carId}`,
+            `http://${port}/rent-car/${carId}`,
+            // `http://${port}/api1/car-details/rent/${carId}`,
             { 
                 available: false,
             },
