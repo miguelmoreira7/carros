@@ -77,22 +77,21 @@ const Home = () => {
           <section>
             {view === "allCars" && <CarListGeneral cars={cars} />}
             {view === "reservations" && <CarListReserved />}
-            <div className="pagination">
+            <div className="flex items-center justify-center gap-4 mt-6">
               <button
                 onClick={handlePreviousPage}
                 disabled={pagination.page === 1}
-                className="pagination-button"
+                className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
               >
                 Anterior
               </button>
-              <span>
-                Página {pagination.page} de {pagination.totalPages} (
-                {pagination.total} carros)
+              <span className="text-gray-700 font-medium">
+                Página {pagination.page} de {pagination.totalPages} ({pagination.total} carros)
               </span>
               <button
                 onClick={handleNextPage}
                 disabled={pagination.page === pagination.totalPages}
-                className="pagination-button"
+                className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
               >
                 Próxima
               </button>
