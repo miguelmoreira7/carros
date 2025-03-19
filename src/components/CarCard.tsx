@@ -14,7 +14,7 @@ const CarCard = ({ car }: CarCardProps) => {
 
     return (
         <div
-            className={`car-card group ${!available ? "opacity-50 cursor-not-allowed" : ""}`}
+            className={`car-card group`}
             onClick={() => available && setIsOpen(true)}
         >
             <div className="car-card__content">
