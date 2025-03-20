@@ -44,7 +44,7 @@ const Home = () => {
     };
 
     fetchData();
-  }, [pagination.page, searchParams, setSearchParams]);
+  }, [pagination.page, searchParams]);
 
   const handleNextPage = () => {
     if (pagination.page < pagination.totalPages) {
@@ -75,27 +75,30 @@ const Home = () => {
         </div>
         {!isDataEmpty ? (
           <section>
-            {view === "allCars" && <CarListGeneral cars={cars} />}
+            {view === "allCars" && 
+              <>
+                <CarListGeneral cars={cars} />
+                <div className="flex items-center justify-center gap-4 mt-6">
+                  <button
+                    onClick={handlePreviousPage}
+                    disabled={pagination.page === 1}
+                    className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
+                  >
+                    Anterior
+                  </button>
+                  <span className="text-gray-700 font-medium">
+                    Página {pagination.page} de {pagination.totalPages} ({pagination.total} carros)
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={pagination.page === pagination.totalPages}
+                    className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
+                  >
+                    Próxima
+                  </button>
+                </div>
+              </>}
             {view === "reservations" && <CarListReserved />}
-            <div className="flex items-center justify-center gap-4 mt-6">
-              <button
-                onClick={handlePreviousPage}
-                disabled={pagination.page === 1}
-                className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
-              >
-                Anterior
-              </button>
-              <span className="text-gray-700 font-medium">
-                Página {pagination.page} de {pagination.totalPages} ({pagination.total} carros)
-              </span>
-              <button
-                onClick={handleNextPage}
-                disabled={pagination.page === pagination.totalPages}
-                className="px-4 py-2 bg-blue-200 text-white-700 rounded-lg hover:bg-blue-300 disabled:bg-gray-100 disabled:text-gray-400 transition"
-              >
-                Próxima
-              </button>
-            </div>
           </section>
         ) : (
           <div className="home__error-container">

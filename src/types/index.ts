@@ -37,6 +37,9 @@ export type Car = {
     model: string;
     transmission: string;
     year: number;
+    data_inicio: string;
+    data_fim: string;
+    preco_diario: number;
 }
 
 export interface FilterProps {

@@ -42,28 +42,27 @@ const Hero = ({ setView }: HeroProps) => {
           Melhorando sua experiência em compra de carros com nosso processo de busca
         </p>
 
-        {!isLoggedIn &&(
-          <CustomButton
-            title="Explorar carros"
-            containerStyles="bg-primary-blue text-white rounded-full mt-10"
-            handleClick={handleScrollToDiscover}
-          />
-        )}
-
-        {isLoggedIn &&(
-          <CustomButton
-            title="Explorar carros"
-            containerStyles="bg-primary-blue text-white rounded-full mt-10"
-            handleClick={() => setView("allCars")}
-          />
-        )}
-
-        {isLoggedIn && (
-          <CustomButton
-            title="Minhas Reservas"
-            containerStyles="bg-primary-blue text-white rounded-full mt-4"
-            handleClick={() => setView("reservations")}
-          />
+        {isLoggedIn ? (
+          <>
+            <CustomButton
+              title="Explorar carros"
+              containerStyles="bg-primary-blue text-white rounded-full mt-10"
+              handleClick={() => {
+                setView("allCars");
+              }}
+            />
+            <CustomButton
+              title="Minhas Reservas"
+              containerStyles="bg-primary-blue text-white rounded-full mt-4"
+              handleClick={() => setView("reservations")}
+            />
+          </>
+        ) : 
+        (<CustomButton
+          title="Explorar carros"
+          containerStyles="bg-primary-blue text-white rounded-full mt-10"
+          handleClick={handleScrollToDiscover}
+        />
         )}
       </div>
 

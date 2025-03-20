@@ -15,7 +15,7 @@ interface CarDetailsProps {
 
 const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
     
-    const { currentColor, setCartData } = useStateContext()
+    const { currentColor, setCartData } = useStateContext();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
@@ -87,7 +87,7 @@ const CarDetails = ({isOpen, closeModal, car} : CarDetailsProps) => {
                                 </h2>
                                 <div className="mt-3 flex flex-wrap gap-4">
                                     {Object.entries(car)
-                                        .filter(([key]) => !["available", "id", "createdAt", "updatedAt"].includes(key))
+                                        .filter(([key]) => !["available", "id", "createdAt", "updatedAt", "userId", "data_inicio", "data_fim", "preco_diario"].includes(key))
                                         .map(([key, value]) => (
                                             <div className="flex justify-between gap-5 w-full text-right" key={key}>
                                                 <h4 className="text-grey capitalize">{key.split("_").join(" ")}</h4>

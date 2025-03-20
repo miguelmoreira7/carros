@@ -2,6 +2,7 @@ import { Car } from "../types";
 import { useState } from "react";
 import { CarDetails, CustomButton } from ".";
 import { calculateCarRent, generateImageUrl } from "../utils";
+import ReservationDetails from "./ReservationDetails";
 
 interface CarCardProps {
     car: Car;
@@ -11,6 +12,7 @@ const CarCard = ({ car }: CarCardProps) => {
     const { city_mpg, year, make, model, transmission, drive, available } = car;
     const carRent = calculateCarRent(city_mpg, year);
     const [isOpen, setIsOpen] = useState(false);
+    const [details, setDetails] = useState(false);
 
     return (
         <div
@@ -24,7 +26,7 @@ const CarCard = ({ car }: CarCardProps) => {
             </div>
             <p className="car-card__price">
                 <span className="car-card__price-dollar">R$</span>
-                {carRent}
+                {car.preco_diario * 10}
                 <span className="car-card__price-day">/dia</span>
             </p>
             <img src={generateImageUrl(car)} alt="car model" className="car-card__image" />
@@ -46,18 +48,26 @@ const CarCard = ({ car }: CarCardProps) => {
                     </div>
                 </div>
                 <div className="car-card__btn-container">
-                    <CustomButton
-                        title="Ver mais"
-                        containerStyles={`w-full py-[16px] rounded-full ${
-                            available ? "bg-primary-blue" : "bg-gray-400 cursor-not-allowed"
-                        }`}
-                        textStyles="text-white text-[14px] leading-[17px] font-bold"
-                        rightIcon="/right-arrow.svg"
-                        handleClick={() => available && setIsOpen(true)}
-                        disabled={!available}
-                    />
+                    {available ? (
+                        <CustomButton
+                            title="Ver mais"
+                            containerStyles={`w-full py-[16px] rounded-full bg-primary-blue`}
+                            textStyles="text-white text-[14px] leading-[17px] font-bold"
+                            rightIcon="/right-arrow.svg"
+                            handleClick={() => setIsOpen(true)}
+                        />
+                    ) : (
+                        <CustomButton
+                            title="Ver detalhes da reserva"
+                            containerStyles={`w-full py-[16px] rounded-full bg-primary-blue`}
+                            textStyles="text-white text-[14px] leading-[17px] font-bold"
+                            rightIcon="/right-arrow.svg"
+                            handleClick={() => setDetails(true)}
+                        />
+                    )}
                 </div>
             </div>
+            <ReservationDetails isOpen={details} closeModal={() => setDetails(false)} car={car}/>
             <CarDetails isOpen={isOpen} closeModal={() => setIsOpen(false)} car={car} />
         </div>
     );

@@ -133,7 +133,7 @@ export const logoutUser = () => {
     window.location.reload();
 };
 
-export const handleConfirmReservation = async (carId: string, onClose: Function) => {
+export const handleConfirmReservation = async (carId: string, dataInicio: string, dataFim: string, onClose: Function) => {
     try {
         const token = localStorage.getItem('token');
 
@@ -145,8 +145,9 @@ export const handleConfirmReservation = async (carId: string, onClose: Function)
 
         const response = await axios.patch(
             `http://${port}/rent-car/${carId}`,
-            // `http://${port}/api1/car-details/rent/${carId}`,
             { 
+                data_inicio: dataInicio,
+                data_fim: dataFim,
                 available: false,
             },
             {
@@ -156,7 +157,8 @@ export const handleConfirmReservation = async (carId: string, onClose: Function)
                 }
             }
         );
-        console.log("veículo reservado com sucesso:", response.data);
+
+        console.log("Veículo reservado com sucesso:", response.data);
         onClose();
         return response.data;
     } catch (error) {
@@ -164,3 +166,39 @@ export const handleConfirmReservation = async (carId: string, onClose: Function)
         onClose();
     }
 };
+
+export const handleCancelReservation = async (carId: string, onClose: Function) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("Token de autenticação não encontrado.");
+            onClose();
+            return;
+        }
+
+        const response = await axios.patch(
+            `http://${port}/api1/car-details/cancel/${carId}`,
+            { 
+                available: true,
+                data_inicio: null,
+                data_fim: null
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    userId: `${window.localStorage.getItem("token")}`
+                }
+            }
+        );
+
+        console.log("Reserva cancelada com sucesso:", response.data);
+        onClose();
+        window.location.reload();
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao cancelar a reserva:", error);
+        onClose();
+    }
+};
+

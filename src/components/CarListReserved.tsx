@@ -34,9 +34,11 @@ const CarListReserved = () => {
   }, []);
 
   if (loading) return <p>Carregando carros reservados...</p>;
+
   console.log(reservedCars); 
+
   return (
-    <div className="car-list">
+    <div className="home__cars-wrapper">
       {reservedCars.length > 0 ? (
         reservedCars.map((car) => <CarCard key={car.id} car={car} />)
       ) : (
